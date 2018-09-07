@@ -283,10 +283,13 @@ function acs_get_custom_index_fields() {
             
             // Check if Field is INT or Double
             if (isset($acs_int_fields) && in_array($acs_schema_field_clean,$acs_int_fields)) {
+                $acs_option_type_field = 'int';
                 $acs_option_key_field = 'IntOptions';
             } else if (isset($acs_double_fields) && in_array($acs_schema_field_clean,$acs_double_fields)) {
+                $acs_option_type_field = 'double';
                 $acs_option_key_field = 'DoubleOptions';
             } else {
+                $acs_option_type_field = 'text';
                 $acs_option_key_field = 'TextOptions';
             }
             // Check if field is sortable
