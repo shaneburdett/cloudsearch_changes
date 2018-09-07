@@ -72,9 +72,9 @@ function acs_prepare_document( $post, $from_save_transaction = false ) {
         $fields_custom = array();
         $acs_schema_fields = $settings->acs_schema_fields;
         
-        //Get Custom Field Parameters
-        $acs_int_fields = array_map('trim',str_getcsv($settings->acs_schema_fields_int));
-        $acs_double_fields = array_map('trim',str_getcsv($settings->acs_schema_fields_double));
+       //Get Custom Field Parameters
+        $acs_int_fields = array_map('trim',str_getcsv(str_replace( '-', '_',$settings->acs_schema_fields_int)));
+        $acs_double_fields = array_map('trim',str_getcsv(str_replace( '-', '_',$settings->acs_schema_fields_double)));
 
         if ( ! empty ( $acs_schema_fields ) ) {
             // If there are some custom fields
@@ -91,15 +91,16 @@ function acs_prepare_document( $post, $from_save_transaction = false ) {
                     // Read from post meta
                     $field_custom = get_post_meta( $post->ID, $acs_schema_field, true );
                 }
-                // Verfy & Convert INT and Double Fields
-                if (isset($acs_int_fields) && in_array($acs_schema_field,$acs_int_fields)) {
-                    $field_custom = intval($field_custom);
-                } else if (isset($acs_double_fields) && in_array($acs_schema_field,$acs_double_fields)) {
-                    $field_custom = doubleval($field_custom);
-                }
 
                 // Replace field slug "-" with "_" due to Amazon CloudSearch valid pattern rule
                 $acs_schema_field_clean = str_replace( '-', '_', $acs_schema_field );
+                
+                // Verfy & Convert INT and Double Fields
+                if (isset($acs_int_fields) && in_array($acs_schema_field_clean,$acs_int_fields)) {
+                    $field_custom = intval($field_custom);
+                } else if (isset($acs_double_fields) && in_array($acs_schema_field_clean,$acs_double_fields)) {
+                    $field_custom = doubleval($field_custom);
+                }
 
 	            if ( ! empty( $field_custom ) ) $fields_custom[ ACS::CUSTOM_FIELD_PREFIX . $acs_schema_field_clean ] = $field_custom;
             }
