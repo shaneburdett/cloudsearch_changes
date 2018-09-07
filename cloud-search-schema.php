@@ -294,7 +294,7 @@ function acs_get_custom_index_fields() {
             }
             // Check if field is sortable
             
-            $acs_sort_enabled_field = (isset($acs_sortable_fields) && in_array($acs_schema_field,$acs_sortable_fields)) ? true : false;
+            $acs_sort_enabled_field = (isset($acs_sortable_fields) && in_array($acs_schema_field_clean,$acs_sortable_fields)) ? true : false;
             
 			// By default all schema fields are indexed as a text string and they are not enabled for facet, highlight or sort
 			$fields[ ACS::CUSTOM_FIELD_PREFIX . $acs_schema_field_clean ] = array(
